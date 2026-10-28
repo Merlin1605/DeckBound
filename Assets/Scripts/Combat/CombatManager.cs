@@ -168,11 +168,13 @@ namespace DeckBound.Combat
             if (!enemy.KeepArmorBetweenTurns) enemy.ClearArmor();
             var move = enemy.NextMove;
             int armorBefore = hero.Armor;
+            bool heroVulnerable = hero.Vulnerable > 0;
             int hpLoss = enemy.TakeTurn(hero);
 
             if (move != null && move.damage > 0)
             {
-                int blocked = Mathf.Min(armorBefore, move.damage);
+                int incoming = heroVulnerable ? Mathf.FloorToInt(move.damage * Combatant.VulnerableMultiplier) : move.damage;
+                int blocked = Mathf.Min(armorBefore, incoming);
                 AddLog($"{enemy.DisplayName} uses {move.moveName}: {blocked} blocked, {hpLoss} damage taken.");
             }
             if (move != null && move.armor > 0)
@@ -185,6 +187,14 @@ namespace DeckBound.Combat
             // Final de tura inamic: eroul ia dmg din poison, iar Vulnerable scade cu 1.
             TickPoison(hero);
             hero.ReduceVulnerable(1);
+
+            // Vulnerable de la inamic se aplica DUPA scadere, ca "2 ture" sa insemne
+            // urmatoarele 2 atacuri ale inamicului (altfel prima tura s-ar pierde imediat).
+            if (move != null && move.vulnerable > 0)
+            {
+                hero.AddVulnerable(move.vulnerable);
+                AddLog($"{hero.DisplayName} is Vulnerable for {hero.Vulnerable} turns.");
+            }
             if (CheckCombatEnd()) yield break;
 
             StartPlayerTurn();

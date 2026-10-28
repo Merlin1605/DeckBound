@@ -46,7 +46,7 @@ namespace DeckBound.Combat
             {
                 Id = "vulnerable",
                 Title = "Vulnerable",
-                Description = "Takes 50% more damage from attacks. Lasts for the given number of turns, including the current one.",
+                Description = "Takes 50% more damage from attacks. Lasts for the given number of turns.",
             },
         };
 
