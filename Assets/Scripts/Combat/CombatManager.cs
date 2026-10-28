@@ -23,6 +23,8 @@ namespace DeckBound.Combat
         [SerializeField, Min(0)] private int cardsPerTurn = 3;
         [SerializeField, Min(0f)] private float enemyTurnDelay = 0.75f;
         [SerializeField] private bool startOnPlay = true;
+        [Tooltip("Pasiva: atacul care consuma Focus face dmg-ul total (carte + Focus) x acest multiplicator. Vulnerable se aplica peste.")]
+        [SerializeField, Min(1f)] private float focusReleaseMultiplier = 1.5f;
 
         private const int MaxLogLines = 8;
         private readonly List<string> log = new List<string>();
@@ -96,14 +98,31 @@ namespace DeckBound.Combat
 
             if (card.Damage > 0)
             {
-                int hpLoss = enemy.TakeDamage(card.Damage);
-                AddLog($"{card.Name}: {enemy.DisplayName} loses {hpLoss} HP.");
+                // Focus-ul acumulat se adauga la acest atac si se consuma.
+                int focus = hero.ConsumeFocus();
+                int damage = card.Damage + focus;
+                if (focus > 0) damage = Mathf.FloorToInt(damage * focusReleaseMultiplier);
+                int hpLoss = enemy.TakeDamage(damage);
+                string bonus = focus > 0 ? $" (+{focus} Focus, x{focusReleaseMultiplier})" : "";
+                AddLog($"{card.Name}{bonus}: {enemy.DisplayName} loses {hpLoss} HP.");
 
                 if (card.Lifesteal > 0)
                 {
                     int healed = hero.Heal(card.Lifesteal);
                     AddLog($"{hero.DisplayName} heals {healed} HP.");
                 }
+            }
+
+            if (card.Vulnerable > 0)
+            {
+                enemy.AddVulnerable(card.Vulnerable);
+                AddLog($"{card.Name}: {enemy.DisplayName} is Vulnerable for {enemy.Vulnerable} turns.");
+            }
+
+            if (card.Focus > 0)
+            {
+                hero.AddFocus(card.Focus);
+                AddLog($"{card.Name}: {hero.DisplayName} has {hero.Focus} Focus.");
             }
 
             if (card.Poison > 0)
@@ -136,8 +155,9 @@ namespace DeckBound.Combat
         {
             State = CombatState.EnemyTurn;
 
-            // Final de tura erou: inamicul ia dmg din poison.
+            // Final de tura erou: inamicul ia dmg din poison, iar Vulnerable scade cu 1.
             TickPoison(enemy);
+            enemy.ReduceVulnerable(1);
             NotifyChanged();
             if (CheckCombatEnd()) yield break;
 
@@ -162,8 +182,9 @@ namespace DeckBound.Combat
 
             if (CheckCombatEnd()) yield break;
 
-            // Final de tura inamic: eroul ia dmg din poison.
+            // Final de tura inamic: eroul ia dmg din poison, iar Vulnerable scade cu 1.
             TickPoison(hero);
+            hero.ReduceVulnerable(1);
             if (CheckCombatEnd()) yield break;
 
             StartPlayerTurn();

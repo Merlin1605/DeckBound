@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3252b8a4eb3e14987104f4c93a3126, type: 3}
+  m_Name: Expose
+  m_EditorClassIdentifier: Assembly-CSharp::DeckBound.Combat.CardData
+  cardName: Card
+  type: 0
+  energyCost: 1
+  art: {fileID: -4255839609989614791, guid: 8db6997d7f65af140bad51b94f3d8140, type: 3}
+  damage: 0
+  armor: 0
+  lifesteal: 0
+  poison: 0
+  focus: 0
+  vulnerable: 2
+  description: 
