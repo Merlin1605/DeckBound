@@ -305,8 +305,8 @@ MonoBehaviour:
   fillSpeed: 3
   armorRoot: {fileID: 283070534}
   armorText: {fileID: 1827038933}
-  poisonRoot: {fileID: 0}
-  poisonText: {fileID: 0}
+  poisonRoot: {fileID: 1815484699}
+  poisonText: {fileID: 1088600300}
 --- !u!1 &154870401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,7 +1008,7 @@ MonoBehaviour:
   enemyIntentIcon: {fileID: 1613016391}
   intentAttackSprite: {fileID: 21300000, guid: 7b2270b699268c941a781b47c339ba0a, type: 3}
   intentDefendSprite: {fileID: 21300000, guid: aea6b2765cd06244b83f15e2a537bb04, type: 3}
-  intentDebuffSprite: {fileID: 0}
+  intentDebuffSprite: {fileID: -916684411013498013, guid: 567cbfd8defea4b4b8c247a70baac28e, type: 3}
   energyText: {fileID: 1798057348}
   drawPileText: {fileID: 799389202}
   discardPileText: {fileID: 1827962836}
@@ -1588,8 +1588,8 @@ MonoBehaviour:
   fillSpeed: 3
   armorRoot: {fileID: 1153486484}
   armorText: {fileID: 1480840151}
-  poisonRoot: {fileID: 0}
-  poisonText: {fileID: 0}
+  poisonRoot: {fileID: 1843588719}
+  poisonText: {fileID: 1363707991}
 --- !u!1 &799389200
 GameObject:
   m_ObjectHideFlags: 0
@@ -2656,7 +2656,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 735.5494, y: 225}
+  m_AnchoredPosition: {x: 688, y: 225}
   m_SizeDelta: {x: 118.42, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1235198342
@@ -4929,7 +4929,7 @@ Transform:
   m_GameObject: {fileID: 1848774739}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.77, y: -1.1, z: 0}
+  m_LocalPosition: {x: 6.26, y: -1.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
