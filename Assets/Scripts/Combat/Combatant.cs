@@ -14,6 +14,10 @@ namespace DeckBound.Combat
         public int CurrentHp { get; private set; }
         public int Armor { get; private set; }
         public int Poison { get; private set; }
+        public int Focus { get; private set; }       // dmg bonus pentru urmatorul atac
+        public int Vulnerable { get; private set; }  // ture ramase cu dmg primit marit
+
+        public const float VulnerableMultiplier = 1.5f;
         public bool IsDead => CurrentHp <= 0;
 
         public event Action OnChanged;
@@ -29,6 +33,8 @@ namespace DeckBound.Combat
             CurrentHp = maxHp;
             Armor = 0;
             Poison = 0;
+            Focus = 0;
+            Vulnerable = 0;
             OnChanged?.Invoke();
         }
 
@@ -36,6 +42,8 @@ namespace DeckBound.Combat
         public int TakeDamage(int amount)
         {
             if (IsDead || amount <= 0) return 0;
+
+            if (Vulnerable > 0) amount = Mathf.FloorToInt(amount * VulnerableMultiplier);
 
             int blocked = Mathf.Min(Armor, amount);
             Armor -= blocked;
@@ -89,6 +97,38 @@ namespace DeckBound.Combat
         {
             if (Poison == 0 || stacks <= 0) return;
             Poison = Mathf.Max(0, Poison - stacks);
+            OnChanged?.Invoke();
+        }
+
+        public void AddFocus(int amount)
+        {
+            if (IsDead || amount <= 0) return;
+            Focus += amount;
+            OnChanged?.Invoke();
+        }
+
+        // Returneaza tot Focus-ul acumulat si il reseteaza (il foloseste un atac).
+        public int ConsumeFocus()
+        {
+            int focus = Focus;
+            if (focus == 0) return 0;
+            Focus = 0;
+            OnChanged?.Invoke();
+            return focus;
+        }
+
+        // Duratele se aduna (2 ture + 2 ture = 4 ture).
+        public void AddVulnerable(int turns)
+        {
+            if (IsDead || turns <= 0) return;
+            Vulnerable += turns;
+            OnChanged?.Invoke();
+        }
+
+        public void ReduceVulnerable(int turns)
+        {
+            if (Vulnerable == 0 || turns <= 0) return;
+            Vulnerable = Mathf.Max(0, Vulnerable - turns);
             OnChanged?.Invoke();
         }
 

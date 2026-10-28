@@ -29,6 +29,14 @@ namespace DeckBound.UI
         [SerializeField] private GameObject poisonRoot;
         [SerializeField] private TMP_Text poisonText;
 
+        [Header("Focus (optional, pentru erou)")]
+        [SerializeField] private GameObject focusRoot;
+        [SerializeField] private TMP_Text focusText;
+
+        [Header("Vulnerable (optional)")]
+        [SerializeField] private GameObject vulnerableRoot;
+        [SerializeField] private TMP_Text vulnerableText;
+
         private float targetFill = 1f;
 
         public void SetTarget(Combatant combatant)
@@ -72,6 +80,12 @@ namespace DeckBound.UI
 
             if (poisonRoot != null) poisonRoot.SetActive(target.Poison > 0);
             if (poisonText != null) poisonText.text = target.Poison.ToString();
+
+            if (focusRoot != null) focusRoot.SetActive(target.Focus > 0);
+            if (focusText != null) focusText.text = target.Focus.ToString();
+
+            if (vulnerableRoot != null) vulnerableRoot.SetActive(target.Vulnerable > 0);
+            if (vulnerableText != null) vulnerableText.text = target.Vulnerable.ToString();
         }
     }
 }

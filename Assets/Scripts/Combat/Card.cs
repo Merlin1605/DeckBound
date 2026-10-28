@@ -17,6 +17,8 @@ namespace DeckBound.Combat
         public int Armor => Data.armor;
         public int Lifesteal => Data.lifesteal;
         public int Poison => Data.poison;
+        public int Focus => Data.focus;
+        public int Vulnerable => Data.vulnerable;
         public string Description => Data.GetDescription();
     }
 }

@@ -36,6 +36,18 @@ namespace DeckBound.Combat
                 Title = "Poison",
                 Description = "At the end of your turn, a poisoned enemy loses HP equal to its Poison, ignoring Armor. At the start of your next turn, its Poison goes down by 1. New Poison stacks on top.",
             },
+            new Keyword
+            {
+                Id = "focus",
+                Title = "Focus",
+                Description = "Your next attack deals bonus damage equal to your Focus, and that whole hit deals 50% more damage. Focus stacks up between turns and is used up by that attack.",
+            },
+            new Keyword
+            {
+                Id = "vulnerable",
+                Title = "Vulnerable",
+                Description = "Takes 50% more damage from attacks. Lasts for the given number of turns.",
+            },
         };
 
         private static Regex pattern;

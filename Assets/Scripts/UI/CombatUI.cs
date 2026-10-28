@@ -22,6 +22,8 @@ namespace DeckBound.UI
         [SerializeField] private HealthBarView heroHealthBar;
         [SerializeField] private HealthBarView enemyHealthBar;
         [SerializeField] private GameObject enemyIntentRoot;
+        [Tooltip("Recomandat: IntentDisplay de pe bubble (o iconita + numar per efect). Daca e setat, campurile de mai jos nu se mai folosesc.")]
+        [SerializeField] private IntentDisplay intentDisplay;
         [SerializeField] private TMP_Text enemyIntentText;
         [Tooltip("Optional: iconita intentiei, schimbata dupa tipul mutarii.")]
         [SerializeField] private Image enemyIntentIcon;
@@ -106,13 +108,18 @@ namespace DeckBound.UI
         private void RefreshIntent()
         {
             var move = combat.Enemy.NextMove;
+            if (intentDisplay != null)
+            {
+                intentDisplay.Show(move);
+                return;
+            }
             if (move == null) return;
 
-            bool debuffOnly = !move.IsAttack && move.armor == 0 && move.poison > 0;
+            bool debuffOnly = !move.IsAttack && move.armor == 0 && (move.poison > 0 || move.vulnerable > 0);
 
             if (enemyIntentText != null)
                 enemyIntentText.text = move.IsAttack ? move.damage.ToString()
-                    : debuffOnly ? move.poison.ToString()
+                    : debuffOnly ? Mathf.Max(move.poison, move.vulnerable).ToString()
                     : move.armor.ToString();
 
             if (enemyIntentIcon != null)
